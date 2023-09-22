@@ -12,6 +12,8 @@
     "posttest": "npm run format"
   },
   "dependencies": {
+    "@zxing/browser": "^0.1.4",
+    "@zxing/library": "^0.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
