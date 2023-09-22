@@ -1,30 +1,20 @@
-import { useState } from "react";
+import React, { useState,FC } from "react";
+import { QrCodeReader } from "./QrCodeReader";
 
-export const TodoList = () => {
-	const initialState = ["first", "second", "third"];
-	const [list, setList] = useState(initialState);
-	const [input, setInput] = useState("");
-	const onClickDelete = (index: number) => {
-		const newList = list.filter((_, i) => i !== index);
-		setList(newList);
-	};
-	const onClickAdd = () => {
-		const newList = [...list, input];
-		setList(newList);
-	};
-	return (
-		<>
-			<h2>TodoList</h2>
-			<input value={input} onChange={(e) => setInput(e.target.value)} />
-			<button onClick={onClickAdd}>追加</button>
-			{list.map((item, index) => {
-				return (
-					<li key={index}>
-						{item}
-						<button onClick={() => onClickDelete(index)}>削除</button>
-					</li>
-				);
-			})}
-		</>
-	);
-};
+const QrCodeResult: FC<{qrCodes: string[] }> = ({qrCodes}: {qrCodes:string[]}) => {
+	return <>
+		{qrCodes.map((qr,i) =><React.Fragment key={i}><div>{qr}</div></React.Fragment>)}
+	</>
+  }
+  
+export   const TodoList = () => {
+	const [qrCodes, setQrCodes] = useState<string[]>([])
+  
+	return <>			<QrCodeReader onReadQRCode={(result) => {
+			  setQrCodes((codes) => {
+				return [result.getText(), ...codes]
+			  })
+			}}/>
+		  
+			<QrCodeResult qrCodes={qrCodes}/></>
+  }
